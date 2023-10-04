@@ -3,8 +3,10 @@ import NavBar from "../Shared/NavBar/NavBar"
 import { useContext, useState } from "react"
 import { AiOutlineEye } from "react-icons/ai";
 import { authContext } from "../../AuthProvider/AuthProvider"
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
+    
 
     const [success, setSuccess] = useState('')
     const [error, setError] = useState('')
@@ -12,7 +14,7 @@ const Register = () => {
     const naiget = useNavigate()
     const { createUser } = useContext(authContext)
 
-    const handleRegister = e => {
+    const handleRegister = e => { 
 
         e.preventDefault()
         const form = new FormData(e.currentTarget)
@@ -30,8 +32,16 @@ const Register = () => {
         createUser(email, password)
             .then(result => {
                 const logUser = result.user;
+                updateProfile(logUser, {
+                    displayName: name,
+                    photoURL: photoUrl
+                }).then(result =>{
 
-                setSuccess('User SUccessfully Created!')
+                })
+                .catch(error =>{
+                    setError(error)
+                })
+                setSuccess('User Successfully Created!')
                 console.log(logUser)
                 naiget("/")
             })
@@ -81,7 +91,8 @@ const Register = () => {
                             </label>
                         </div>
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary">Login</button>
+                           { user ? <button className="btn btn-primary">Logout</button>:
+                           <button className="btn btn-primary">Login</button>}
                         </div>
                         <small>Already have account? <Link className="text-bold text-blue-600" to='/login'>Login</Link></small>
                     </form>

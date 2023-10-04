@@ -1,14 +1,29 @@
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import userDefaultPic from "../../../assets/user.png"
+import { authContext } from '../../../AuthProvider/AuthProvider';
 
 const NavBar = () => {
+
+    const { user, Logout } = useContext(authContext)
+
+    const naviGet = useNavigate()
+
+    const handleLogout = () =>{
+        Logout()
+        .then(() =>{
+            naviGet('/')
+        })
+        .catch(error =>{
+            alert('Something wrong!')
+        })
+    }
 
     const Links = <>
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/about'>About</NavLink></li>
         <li><NavLink to='/career'>Career</NavLink></li>
-        
+
     </>
     return (
         <div className="navbar bg-base-100">
@@ -31,12 +46,16 @@ const NavBar = () => {
             <div className="navbar-end">
                 <div className="avatar">
                     <div className="w-14 mr-4 rounded-full">
-                        <img src={userDefaultPic} />
+                        {user && <img src={user.photoURL ? user.photoURL : userDefaultPic} />}
                     </div>
                 </div>
-                <Link to="/login">
-                    <button className='btn btn-secondary'>Login</button>
-                </Link>
+
+                {
+                    user ? <button onClick={handleLogout} className='btn btn-secondary'>Logout</button> :
+                        <Link to="/login">
+                            <button className='btn btn-secondary'>Login</button>
+                        </Link>
+                }
             </div>
         </div>
     );

@@ -5,8 +5,13 @@ import NavBar from "../Shared/NavBar/NavBar";
 import RightSide from "../Shared/RightSide/RightSide";
 import LatestNews from "./LatestNews";
 import { authContext } from "../../AuthProvider/AuthProvider";
+import { useLoaderData } from "react-router-dom";
+import NewsCard from "./NewsCard";
 
 const Home = () => {
+
+    const newses = useLoaderData()
+    
     const {name} = useContext(authContext)
     return (
         <div>
@@ -14,14 +19,15 @@ const Home = () => {
             <LatestNews></LatestNews>
             <NavBar></NavBar>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="border-2">
+                <div>
                     <LeftSideNav></LeftSideNav>
                 </div>
-                <div className="border-2 md:col-span-2">
-                    <h2>News Comming soon</h2>
-                    <h1>{name}</h1>
+                <div className="py-6 md:col-span-2">
+                    {
+                        newses.map(news =><NewsCard key={news._id} news ={news}></NewsCard>)
+                    }
                 </div>
-                <div className="border-2">
+                <div>
                     <RightSide></RightSide>
                 </div>
             </div>

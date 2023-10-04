@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import NavBar from "../Shared/NavBar/NavBar";
 
 import { AiOutlineEye } from "react-icons/ai";
@@ -6,6 +6,7 @@ import { useContext, useState } from "react";
 import { authContext } from "../../AuthProvider/AuthProvider";
 
 const Login = () => {
+    const location = useLocation()
     const [success, setSuccess] = useState('')
     const [error, setError] = useState('')
     const [show, setShow] = useState(true)
@@ -23,7 +24,7 @@ const Login = () => {
         LoginUser(email, password)
         .then(result =>{
             const user = result.user 
-            naiget("/")
+            naiget(location?.state ? location.state : "/")
         })
         .catch(error =>{
             setError(error.message)
