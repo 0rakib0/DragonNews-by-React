@@ -8,6 +8,7 @@ const NavBar = () => {
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/about'>About</NavLink></li>
         <li><NavLink to='/career'>Career</NavLink></li>
+        
     </>
     return (
         <div className="navbar bg-base-100">
@@ -33,7 +34,7 @@ const NavBar = () => {
                         <img src={userDefaultPic} />
                     </div>
                 </div>
-                <Link>
+                <Link to="/login">
                     <button className='btn btn-secondary'>Login</button>
                 </Link>
             </div>
