@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import NavBar from "../Shared/NavBar/NavBar"
 import { useContext, useState } from "react"
 import { AiOutlineEye } from "react-icons/ai";
@@ -9,10 +9,11 @@ const Register = () => {
     const [success, setSuccess] = useState('')
     const [error, setError] = useState('')
     const [show, setShow] = useState(true)
-
+    const naiget = useNavigate()
     const { createUser } = useContext(authContext)
 
     const handleRegister = e => {
+
         e.preventDefault()
         const form = new FormData(e.currentTarget)
         const email = form.get('email')
@@ -32,6 +33,7 @@ const Register = () => {
 
                 setSuccess('User SUccessfully Created!')
                 console.log(logUser)
+                naiget("/")
             })
             .catch(error => {
                 setError(error.message)
@@ -81,7 +83,7 @@ const Register = () => {
                         <div className="form-control mt-6">
                             <button className="btn btn-primary">Login</button>
                         </div>
-                        <small>Do not have account? <Link className="text-bold text-blue-600" to='/register'>Register</Link></small>
+                        <small>Already have account? <Link className="text-bold text-blue-600" to='/login'>Login</Link></small>
                     </form>
                 </div>
             </div>
